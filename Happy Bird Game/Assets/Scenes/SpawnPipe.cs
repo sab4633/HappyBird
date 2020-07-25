@@ -5,16 +5,15 @@ using UnityEngine;
 public class SpawnPipe : MonoBehaviour
 {
     public GameObject pipe;
-    private GameObject[] pipeObj;
-    private int indexer;
     private float time = 0.0f;
-    public float interpolationPeriod = Random.Range(1f, 1.8f);
+    List<GameObject> pipes;
+    public float interpolationPeriod;
     public float bounds = 20;
 
 
     void Start()
     {
-        indexer = 0;
+        interpolationPeriod = Random.Range(1f, 1.8f);
         SpawnRandom();
     }
 
@@ -39,10 +38,29 @@ public class SpawnPipe : MonoBehaviour
         //Vector3 screenPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, Screen.height/2, Camera.main.nearClipPlane+5)); //will get the middle of the screen
         
         Vector3 screenPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Random.Range(bounds, Screen.height-bounds), Camera.main.farClipPlane / 2));
-       
-        Instantiate(pipe, screenPosition, Quaternion.identity);
-      
+        GameObject clone = Instantiate(pipe) as GameObject;
+        clone = (GameObject)Instantiate(pipe, screenPosition, Quaternion.identity);
+        pipes.Add(clone);
+        if (pipes.Count >= 3)
+        {
+            Destroy(pipes[0]);
+            pipes.RemoveAt(0);
+            Debug.Log(pipes.Count);
+        }
     }
+    /*
+    public void DestoryPipes()
+    {
+        if (pipes.Count >= 3)
+        {
+            
+            for(int i= 0; i < pipes.Count - 2; i++)
+            {
+                Destroy(pipes.GetEnumerator(i));
+            }
+        }
+    }
+    */
    
     
 }

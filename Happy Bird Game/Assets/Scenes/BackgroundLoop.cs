@@ -53,6 +53,7 @@ public class BackgroundLoop : MonoBehaviour
 
 
             }
+            
         }
     }
     void LateUpdate()
